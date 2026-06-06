@@ -4,7 +4,7 @@ import { DishCard } from "@/components/DishCard";
 import { Hero } from "@/components/Hero";
 import { Reveal } from "@/components/Reveal";
 import { SectionHeading } from "@/components/SectionHeading";
-import { getMenuClient } from "@/lib/menu-client";
+import { getFeatured } from "@/lib/menu";
 import { HOURS } from "@/lib/site";
 
 const VALUES = [
@@ -23,7 +23,7 @@ const VALUES = [
 ];
 
 export default async function HomePage() {
-  const featured = await getMenuClient().getFeatured();
+  const featured = await getFeatured();
 
   return (
     <>

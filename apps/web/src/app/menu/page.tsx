@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { MenuExplorer } from "@/components/menu/MenuExplorer";
 import { Reveal } from "@/components/Reveal";
 import { SectionHeading } from "@/components/SectionHeading";
-import { getMenuClient } from "@/lib/menu-client";
+import { getCategories, getMenu } from "@/lib/menu";
 
 export const metadata: Metadata = {
   title: "Menu",
@@ -11,11 +11,7 @@ export const metadata: Metadata = {
 };
 
 export default async function MenuPage() {
-  const client = getMenuClient();
-  const [categories, dishes] = await Promise.all([
-    client.getCategories(),
-    client.getMenu(),
-  ]);
+  const [categories, dishes] = await Promise.all([getCategories(), getMenu()]);
 
   return (
     <div className="mx-auto max-w-6xl px-5 py-16">

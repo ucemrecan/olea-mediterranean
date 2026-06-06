@@ -1,17 +1,29 @@
+import "server-only";
+
 import type { Dish, RecommendationPreferences } from "@olea/menu-data";
 import { GoogleGenAI, Type } from "@google/genai";
-import { env } from "../env";
 
 /**
- * The only LLM-aware module. It asks Gemini to pick dishes from the menu and
- * write a friendly reply, returning structured JSON. The rest of the app stays
- * provider-agnostic. Throws if no key is configured or the call fails — callers
- * fall back to the rule-based engine.
+ * Server-only LLM wrapper. Asks Gemini to pick dishes from the menu and write a
+ * friendly reply, returning structured JSON. The key never leaves the server.
+ * Throws if no key is set or the call fails — callers fall back to rules.
  */
 
 export interface LlmRecommendation {
   dishIds: string[];
   reply: string;
+}
+
+function apiKey(): string | undefined {
+  return process.env.GEMINI_API_KEY?.trim() || undefined;
+}
+
+function model(): string {
+  return process.env.GEMINI_MODEL ?? "gemini-2.5-flash";
+}
+
+export function isLlmEnabled(): boolean {
+  return Boolean(apiKey());
 }
 
 const SYSTEM_INSTRUCTION = `You are the table assistant for Olea, a modern Mediterranean restaurant.
@@ -21,7 +33,6 @@ Strictly respect the guest's dietary preference. Honour their other preferences
 Pick the best matches (at most the requested limit). Write a warm, concise reply
 (1–2 sentences, no lists) that introduces the picks. Never invent dishes.`;
 
-/** Compact menu projection sent to the model — only what it needs to choose. */
 function menuForPrompt(menu: Dish[]) {
   return menu.map((dish) => ({
     id: dish.id,
@@ -42,11 +53,12 @@ export async function generateRecommendation(input: {
   message?: string;
   limit: number;
 }): Promise<LlmRecommendation> {
-  if (!env.gemini.apiKey) {
+  const key = apiKey();
+  if (!key) {
     throw new Error("GEMINI_API_KEY is not configured");
   }
 
-  const ai = new GoogleGenAI({ apiKey: env.gemini.apiKey });
+  const ai = new GoogleGenAI({ apiKey: key });
 
   const prompt = [
     `Menu (JSON): ${JSON.stringify(menuForPrompt(input.menu))}`,
@@ -58,7 +70,7 @@ export async function generateRecommendation(input: {
     .join("\n\n");
 
   const response = await ai.models.generateContent({
-    model: env.gemini.model,
+    model: model(),
     contents: prompt,
     config: {
       systemInstruction: SYSTEM_INSTRUCTION,

@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { useAssistant } from "@/components/assistant/AssistantContext";
 import { RecommendationCard } from "@/components/assistant/RecommendationCard";
-import { getMenuClient } from "@/lib/menu-client";
+import { requestRecommendation } from "@/lib/assistant-client";
 import { cn } from "@/lib/cn";
 
 /**
@@ -96,7 +96,7 @@ export function AssistantWidget() {
     } else {
       setLoading(true);
       try {
-        const result = await getMenuClient().recommend(nextPrefs, { limit: 3 });
+        const result = await requestRecommendation(nextPrefs, { limit: 3 });
         setResults(result);
       } catch {
         setResults({

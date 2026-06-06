@@ -1,13 +1,14 @@
+import "server-only";
+
 import {
+  dishes,
   recommendDishes,
   type Dish,
   type RecommendationPreferences,
   type RecommendationResult,
   type ScoredDish,
 } from "@olea/menu-data";
-import { isLlmEnabled } from "../env";
-import { getDishes } from "../repositories/menu.repository";
-import { generateRecommendation } from "./gemini";
+import { generateRecommendation, isLlmEnabled } from "./gemini";
 
 /** Friendly fallback reply built from the rule-based engine's output. */
 function buildRuleReply(scored: ScoredDish[]): string {
@@ -20,27 +21,27 @@ function buildRuleReply(scored: ScoredDish[]): string {
 }
 
 /**
- * Produces dish recommendations. Uses Gemini when a key is configured (it both
+ * Produces dish recommendations server-side. Uses Gemini when a key is set (it
  * picks the dishes and writes the reply); otherwise — or on any LLM error — it
- * falls back to the deterministic rule-based engine from the shared package.
+ * falls back to the deterministic rule-based engine. The menu is the static
+ * data from the shared package, so no database is involved.
  */
 export async function recommend(
   preferences: RecommendationPreferences,
   message?: string,
   limit = 3,
 ): Promise<RecommendationResult> {
-  const menu = await getDishes();
-  const ruleBased = recommendDishes(preferences, menu, limit);
+  const ruleBased = recommendDishes(preferences, dishes, limit);
 
-  if (isLlmEnabled) {
+  if (isLlmEnabled()) {
     try {
       const { dishIds, reply } = await generateRecommendation({
-        menu,
+        menu: dishes,
         preferences,
         message,
         limit,
       });
-      const byId = new Map(menu.map((dish) => [dish.id, dish]));
+      const byId = new Map(dishes.map((dish) => [dish.id, dish]));
       const picked = dishIds
         .map((id) => byId.get(id))
         .filter((dish): dish is Dish => Boolean(dish))

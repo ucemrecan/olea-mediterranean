@@ -1,9 +1,11 @@
-import { Router } from "express";
+import { NextResponse } from "next/server";
 import { z } from "zod";
 import type { RecommendationPreferences } from "@olea/menu-data";
-import { recommend } from "../services/recommendation.service";
+import { recommend } from "@/lib/server/recommendation";
 
-const router = Router();
+// Gemini SDK needs the Node.js runtime; this route is always dynamic.
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
 
 const preferencesSchema = z.object({
   diet: z.enum(["vegan", "vegetarian", "pescatarian", "no-restriction"]).optional(),
@@ -27,26 +29,21 @@ const bodySchema = z.object({
   limit: z.number().int().min(1).max(6).optional(),
 });
 
-router.post("/recommend", async (req, res, next) => {
-  try {
-    const parsed = bodySchema.safeParse(req.body ?? {});
-    if (!parsed.success) {
-      res
-        .status(400)
-        .json({ error: { message: "Invalid request", details: parsed.error.flatten() } });
-      return;
-    }
-
-    const { preferences, message, limit } = parsed.data;
-    const result = await recommend(
-      preferences as RecommendationPreferences,
-      message,
-      limit ?? 3,
+export async function POST(request: Request) {
+  const json = await request.json().catch(() => ({}));
+  const parsed = bodySchema.safeParse(json);
+  if (!parsed.success) {
+    return NextResponse.json(
+      { error: { message: "Invalid request", details: parsed.error.flatten() } },
+      { status: 400 },
     );
-    res.json(result);
-  } catch (error) {
-    next(error);
   }
-});
 
-export default router;
+  const { preferences, message, limit } = parsed.data;
+  const result = await recommend(
+    preferences as RecommendationPreferences,
+    message,
+    limit ?? 3,
+  );
+  return NextResponse.json(result);
+}
