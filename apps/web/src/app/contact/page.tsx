@@ -75,20 +75,17 @@ export default function ContactPage() {
               </div>
             </div>
 
-            {/* Map placeholder */}
-            <div className="relative h-56 overflow-hidden rounded-card ring-1 ring-ink/10">
-              <div
-                className="absolute inset-0 bg-grain"
-                style={{
-                  background:
-                    "linear-gradient(135deg, #3e6e6b 0%, #5a6648 100%)",
-                }}
+            {/* Map — a neutral public landmark on Barcelona's waterfront,
+                not a real business, embedded without an API key. */}
+            <div className="relative h-64 overflow-hidden rounded-card ring-1 ring-ink/10">
+              <iframe
+                title="Olea on the map"
+                src="https://www.google.com/maps/embed?origin=mfe&pb=!1m3!2m1!1sPort+Ol%C3%ADmpic,+Barcelona!6i15"
+                className="h-full w-full border-0 grayscale-[0.2]"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                allowFullScreen
               />
-              <div className="absolute inset-0 flex items-center justify-center">
-                <span className="rounded-full bg-cream/90 px-4 py-2 text-sm font-medium text-ink shadow">
-                  📍 {CONTACT.address.line2}
-                </span>
-              </div>
             </div>
           </div>
         </Reveal>
