@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { Button } from "@/components/Button";
 import { Reveal } from "@/components/Reveal";
 import { SectionHeading } from "@/components/SectionHeading";
+import { IMAGES } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "About",
@@ -50,13 +52,15 @@ export default function AboutPage() {
       <section className="mx-auto max-w-5xl px-5 py-12">
         <div className="grid items-center gap-12 lg:grid-cols-2">
           <Reveal>
-            <div
-              className="h-80 rounded-card"
-              style={{
-                background:
-                  "linear-gradient(150deg, #5a6648 0%, #3e6e6b 100%)",
-              }}
-            />
+            <div className="relative h-80 overflow-hidden rounded-card shadow-lg ring-1 ring-ink/10">
+              <Image
+                src={IMAGES.oliveGrove}
+                alt="Olives ripening on the branch"
+                fill
+                sizes="(max-width: 1024px) 100vw, 45vw"
+                className="object-cover"
+              />
+            </div>
           </Reveal>
           <Reveal delay={0.1}>
             <SectionHeading

@@ -1,10 +1,12 @@
 import type { CategoryInfo, Dish } from "./types";
 
 /**
- * Mock menu for Olea. The `image` field is intentionally left empty: the UI
- * renders a generated visual per dish, so the experience stays cohesive until
- * real photography is supplied through the API.
+ * Mock menu for Olea. Images are free Unsplash photos referenced by their CDN
+ * id; the UI optimises them and falls back to a generated visual if one ever
+ * fails to load. Real photography can replace these through the API later.
  */
+const img = (id: string) =>
+  `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=800&q=70`;
 
 export const categories: CategoryInfo[] = [
   {
@@ -39,6 +41,7 @@ export const dishes: Dish[] = [
   {
     id: "whipped-feta",
     name: "Whipped Feta & Honey",
+    image: img("1559561853-08451507cbe7"),
     description:
       "Aegean feta whipped silky with olive oil, thyme honey, and toasted sesame.",
     price: 11,
@@ -54,6 +57,7 @@ export const dishes: Dish[] = [
   {
     id: "charred-octopus-starter",
     name: "Charred Octopus",
+    image: img("1626232441076-a2a5ada2256a"),
     description:
       "Slow-braised then grilled octopus with smoked paprika, capers, and lemon.",
     price: 16,
@@ -68,6 +72,7 @@ export const dishes: Dish[] = [
   {
     id: "muhammara",
     name: "Muhammara",
+    image: img("1692302756206-3dd7506cb8f0"),
     description:
       "Roasted red pepper and walnut dip with pomegranate molasses and warm flatbread.",
     price: 10,
@@ -82,6 +87,7 @@ export const dishes: Dish[] = [
   {
     id: "dolma",
     name: "Vine Leaf Dolma",
+    image: img("1636141186543-476c0defe0f0"),
     description:
       "Vine leaves rolled with herbed rice, pine nuts, and currants, served chilled.",
     price: 9,
@@ -96,6 +102,7 @@ export const dishes: Dish[] = [
   {
     id: "halloumi-skewer",
     name: "Grilled Halloumi Skewer",
+    image: img("1633857471930-bfa8d0be5e4a"),
     description:
       "Charred halloumi with cherry tomatoes, oregano, and a drizzle of carob syrup.",
     price: 12,
@@ -112,6 +119,7 @@ export const dishes: Dish[] = [
   {
     id: "lamb-tagine",
     name: "Slow Lamb Tagine",
+    image: img("1773209927906-8a4187066b41"),
     description:
       "Lamb shoulder braised with apricots, cinnamon, and almonds over saffron couscous.",
     price: 27,
@@ -127,6 +135,7 @@ export const dishes: Dish[] = [
   {
     id: "eggplant-imam",
     name: "İmam Bayıldı",
+    image: img("1587095485590-427d757332ff"),
     description:
       "Whole braised eggplant stuffed with tomato, onion, and garlic in olive oil.",
     price: 18,
@@ -141,6 +150,7 @@ export const dishes: Dish[] = [
   {
     id: "chicken-souvlaki",
     name: "Lemon Chicken Souvlaki",
+    image: img("1604908176997-125f25cc6f3d"),
     description:
       "Charcoal-grilled chicken skewers marinated in lemon, garlic, and oregano.",
     price: 21,
@@ -155,6 +165,7 @@ export const dishes: Dish[] = [
   {
     id: "harissa-cauliflower",
     name: "Harissa Roasted Cauliflower",
+    image: img("1510629954389-c1e0da47d414"),
     description:
       "Whole cauliflower roasted in harissa with tahini, dukkah, and herb oil.",
     price: 19,
@@ -170,6 +181,7 @@ export const dishes: Dish[] = [
   {
     id: "beef-kofta",
     name: "Spiced Beef Köfte",
+    image: img("1532636875304-0c89119d9b4d"),
     description:
       "Charcoal köfte with smoked chili, grilled peppers, and burnt-onion yogurt.",
     price: 23,
@@ -184,6 +196,7 @@ export const dishes: Dish[] = [
   {
     id: "saffron-risotto",
     name: "Saffron & Lemon Risotto",
+    image: img("1476124369491-e7addf5db371"),
     description:
       "Carnaroli rice with saffron, preserved lemon, and aged pecorino.",
     price: 20,
@@ -200,6 +213,7 @@ export const dishes: Dish[] = [
   {
     id: "grilled-sea-bass",
     name: "Whole Grilled Sea Bass",
+    image: img("1665401015549-712c0dc5ef85"),
     description:
       "Line-caught sea bass over charcoal with fennel, lemon, and caper berries.",
     price: 29,
@@ -215,6 +229,7 @@ export const dishes: Dish[] = [
   {
     id: "garlic-prawns",
     name: "Sizzling Garlic Prawns",
+    image: img("1625943553852-781c6dd46faa"),
     description:
       "Prawns seared in chili, garlic, and olive oil with grilled sourdough.",
     price: 22,
@@ -229,6 +244,7 @@ export const dishes: Dish[] = [
   {
     id: "calamari",
     name: "Crispy Calamari",
+    image: img("1675377668870-baf9b35763f9"),
     description:
       "Lightly fried calamari with smoked aioli and a squeeze of lemon.",
     price: 17,
@@ -243,6 +259,7 @@ export const dishes: Dish[] = [
   {
     id: "seafood-stew",
     name: "Coastal Seafood Stew",
+    image: img("1761530291482-c3ed81a7fc3a"),
     description:
       "Mussels, clams, and white fish in a saffron-tomato broth with herbs.",
     price: 26,
@@ -259,6 +276,7 @@ export const dishes: Dish[] = [
   {
     id: "baklava",
     name: "Pistachio Baklava",
+    image: img("1598110750624-207050c4f28c"),
     description:
       "Layered filo with Antep pistachios and orange-blossom syrup.",
     price: 9,
@@ -274,6 +292,7 @@ export const dishes: Dish[] = [
   {
     id: "citrus-olive-cake",
     name: "Olive Oil & Citrus Cake",
+    image: img("1702165640704-500de9043903"),
     description:
       "Moist olive oil cake with orange, almond, and a spoon of mascarpone.",
     price: 8,
@@ -288,6 +307,7 @@ export const dishes: Dish[] = [
   {
     id: "yogurt-honey",
     name: "Strained Yogurt & Honey",
+    image: img("1763825613390-287a9db0803d"),
     description:
       "Thick yogurt with walnut, thyme honey, and roasted figs.",
     price: 7,
@@ -302,6 +322,7 @@ export const dishes: Dish[] = [
   {
     id: "lemon-sorbet",
     name: "Amalfi Lemon Sorbet",
+    image: img("1724805053558-aea1220afbfa"),
     description:
       "Bright lemon sorbet with a touch of basil and sea salt.",
     price: 6,
@@ -318,6 +339,7 @@ export const dishes: Dish[] = [
   {
     id: "house-white",
     name: "Coastal House White",
+    image: img("1585553616435-2dc0a54e271d"),
     description:
       "Crisp unoaked white with notes of green apple and sea breeze.",
     price: 8,
@@ -332,6 +354,7 @@ export const dishes: Dish[] = [
   {
     id: "pomegranate-spritz",
     name: "Pomegranate Spritz",
+    image: img("1589378938275-947b7adf8665"),
     description:
       "Sparkling spritz with pomegranate, citrus, and fresh mint.",
     price: 9,
@@ -347,6 +370,7 @@ export const dishes: Dish[] = [
   {
     id: "mint-tea",
     name: "Fresh Mint Tea",
+    image: img("1567708415681-d1d249e182eb"),
     description:
       "Steeped green tea with handfuls of fresh mint and a touch of honey.",
     price: 5,

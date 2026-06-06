@@ -1,6 +1,6 @@
 import type { Dish } from "@olea/menu-data";
 import { Badge } from "@/components/Badge";
-import { DishVisual } from "@/components/DishVisual";
+import { DishImage } from "@/components/DishImage";
 import { cn } from "@/lib/cn";
 import {
   dietaryLabels,
@@ -25,7 +25,12 @@ export function DishCard({ dish, className }: DishCardProps) {
       )}
     >
       <div className="relative">
-        <DishVisual category={dish.category} className="h-44 w-full" />
+        <DishImage
+          src={dish.image}
+          alt={dish.name}
+          category={dish.category}
+          className="h-44 w-full"
+        />
         <span className="absolute right-3 top-3 rounded-full bg-cream/90 px-3 py-1 text-sm font-semibold text-ink shadow-sm">
           {formatPrice(dish.price)}
         </span>

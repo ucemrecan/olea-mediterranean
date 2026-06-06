@@ -1,5 +1,5 @@
 import type { ScoredDish } from "@olea/menu-data";
-import { DishVisual } from "@/components/DishVisual";
+import { DishImage } from "@/components/DishImage";
 import { formatPrice } from "@/lib/display";
 
 /** Turns the engine's reason fragments into one friendly sentence. */
@@ -15,8 +15,11 @@ export function RecommendationCard({ scored }: { scored: ScoredDish }) {
   const { dish } = scored;
   return (
     <div className="flex gap-3 rounded-xl bg-white p-2.5 ring-1 ring-ink/5">
-      <DishVisual
+      <DishImage
+        src={dish.image}
+        alt={dish.name}
         category={dish.category}
+        sizes="64px"
         className="h-16 w-16 shrink-0 rounded-lg"
       />
       <div className="min-w-0 flex-1">

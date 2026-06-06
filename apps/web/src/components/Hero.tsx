@@ -1,9 +1,10 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { useAssistant } from "@/components/assistant/AssistantContext";
 import { Button } from "@/components/Button";
-import { SITE } from "@/lib/site";
+import { IMAGES, SITE } from "@/lib/site";
 
 export function Hero() {
   const { open } = useAssistant();
@@ -39,42 +40,18 @@ export function Hero() {
           initial={{ opacity: 0, scale: 0.96 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.7, ease: "easeOut", delay: 0.1 }}
-          className="relative hidden h-[28rem] lg:block"
+          className="relative hidden h-[28rem] overflow-hidden rounded-[2rem] shadow-xl ring-1 ring-ink/10 lg:block"
         >
-          <div
-            className="absolute inset-0 rounded-[2rem]"
-            style={{
-              background:
-                "linear-gradient(150deg, #5a6648 0%, #c05e3c 60%, #c49a4a 100%)",
-            }}
+          <Image
+            src={IMAGES.hero}
+            alt="A Mediterranean table spread"
+            fill
+            priority
+            sizes="(max-width: 1024px) 0px, 45vw"
+            className="object-cover"
           />
-          <svg
-            viewBox="0 0 120 120"
-            className="absolute inset-0 h-full w-full p-12 text-cream/85"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.4"
-          >
-            <path d="M60 115 C60 70 72 38 104 14" strokeLinecap="round" />
-            {[30, 48, 66, 84].map((y, i) => (
-              <g key={y}>
-                <ellipse
-                  cx={70 + i * 7}
-                  cy={y - i * 2}
-                  rx="13"
-                  ry="5.5"
-                  transform={`rotate(${-35 - i * 5} ${70 + i * 7} ${y - i * 2})`}
-                />
-                <ellipse
-                  cx={52 - i * 5}
-                  cy={y + 7}
-                  rx="13"
-                  ry="5.5"
-                  transform={`rotate(${35 + i * 5} ${52 - i * 5} ${y + 7})`}
-                />
-              </g>
-            ))}
-          </svg>
+          {/* Warm wash to keep the palette consistent and text legible. */}
+          <div className="absolute inset-0 bg-gradient-to-tr from-olive-deep/40 via-transparent to-terracotta/20" />
         </motion.div>
       </div>
     </section>
