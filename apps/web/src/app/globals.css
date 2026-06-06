@@ -1,0 +1,63 @@
+@import "tailwindcss";
+
+/**
+ * Olea design tokens.
+ * Modern Mediterranean: warm, earthy, calm. Cream paper, olive greens,
+ * terracotta and gold accents, a touch of sea.
+ */
+@theme {
+  --color-cream: #f7f1e6;
+  --color-sand: #ece1cd;
+  --color-clay: #e3d4ba;
+  --color-ink: #262620;
+  --color-ink-soft: #55564b;
+  --color-olive: #5a6648;
+  --color-olive-deep: #3c4531;
+  --color-terracotta: #c05e3c;
+  --color-terracotta-deep: #a44d2f;
+  --color-gold: #c49a4a;
+  --color-sea: #3e6e6b;
+
+  --font-display: var(--font-fraunces);
+  --font-sans: var(--font-inter);
+
+  --radius-card: 1rem;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-cream);
+    color: var(--color-ink);
+    font-family: var(--font-sans), system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display), Georgia, serif;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+
+  ::selection {
+    background-color: var(--color-olive);
+    color: var(--color-cream);
+  }
+}
+
+@layer utilities {
+  /* Subtle paper grain used behind hero and section blocks. */
+  .bg-grain {
+    background-image: radial-gradient(
+      rgba(60, 69, 49, 0.05) 1px,
+      transparent 1px
+    );
+    background-size: 18px 18px;
+  }
+}

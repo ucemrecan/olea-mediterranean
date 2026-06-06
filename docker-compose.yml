@@ -1,0 +1,19 @@
+services:
+  web:
+    image: node:22-alpine
+    working_dir: /workspace
+    command: sh -c "corepack enable && corepack prepare pnpm@9.12.0 --activate && pnpm install && pnpm --filter @olea/web dev"
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/workspace
+      - web_next_cache:/workspace/apps/web/.next
+    environment:
+      # NODE_ENV is intentionally left to Next.js so dev/build pick the right mode.
+      - NEXT_TELEMETRY_DISABLED=1
+      # Enables hot reload when the project lives on a bind-mounted volume.
+      - WATCHPACK_POLLING=true
+    tty: true
+
+volumes:
+  web_next_cache:

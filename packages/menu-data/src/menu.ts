@@ -1,0 +1,361 @@
+import type { CategoryInfo, Dish } from "./types";
+
+/**
+ * Mock menu for Olea. The `image` field is intentionally left empty: the UI
+ * renders a generated visual per dish, so the experience stays cohesive until
+ * real photography is supplied through the API.
+ */
+
+export const categories: CategoryInfo[] = [
+  {
+    id: "starters",
+    label: "Starters",
+    description: "Small plates and mezze to open the table.",
+  },
+  {
+    id: "mains",
+    label: "Mains",
+    description: "Wood-fired and slow-cooked plates from the heart of the kitchen.",
+  },
+  {
+    id: "seafood",
+    label: "From the Sea",
+    description: "The day's catch, treated simply and with respect.",
+  },
+  {
+    id: "desserts",
+    label: "Desserts",
+    description: "Honey, citrus, and almond — the sweet side of the coast.",
+  },
+  {
+    id: "drinks",
+    label: "Drinks",
+    description: "Coastal wines, infusions, and house ferments.",
+  },
+];
+
+export const dishes: Dish[] = [
+  // --- Starters ---
+  {
+    id: "whipped-feta",
+    name: "Whipped Feta & Honey",
+    description:
+      "Aegean feta whipped silky with olive oil, thyme honey, and toasted sesame.",
+    price: 11,
+    priceTier: 1,
+    category: "starters",
+    dietaryTags: ["vegetarian", "gluten-free", "nut-free"],
+    spiceLevel: 0,
+    moods: ["light", "comforting"],
+    occasions: ["casual", "romantic", "family"],
+    ingredients: ["feta", "thyme honey", "olive oil", "sesame"],
+    featured: true,
+  },
+  {
+    id: "charred-octopus-starter",
+    name: "Charred Octopus",
+    description:
+      "Slow-braised then grilled octopus with smoked paprika, capers, and lemon.",
+    price: 16,
+    priceTier: 2,
+    category: "starters",
+    dietaryTags: ["pescatarian", "gluten-free", "dairy-free", "contains-seafood"],
+    spiceLevel: 1,
+    moods: ["adventurous", "fresh"],
+    occasions: ["romantic", "celebration"],
+    ingredients: ["octopus", "smoked paprika", "capers", "lemon"],
+  },
+  {
+    id: "muhammara",
+    name: "Muhammara",
+    description:
+      "Roasted red pepper and walnut dip with pomegranate molasses and warm flatbread.",
+    price: 10,
+    priceTier: 1,
+    category: "starters",
+    dietaryTags: ["vegan", "dairy-free"],
+    spiceLevel: 2,
+    moods: ["adventurous", "hearty"],
+    occasions: ["casual", "family"],
+    ingredients: ["red pepper", "walnut", "pomegranate molasses", "flatbread"],
+  },
+  {
+    id: "dolma",
+    name: "Vine Leaf Dolma",
+    description:
+      "Vine leaves rolled with herbed rice, pine nuts, and currants, served chilled.",
+    price: 9,
+    priceTier: 1,
+    category: "starters",
+    dietaryTags: ["vegan", "gluten-free", "dairy-free"],
+    spiceLevel: 0,
+    moods: ["light", "fresh"],
+    occasions: ["solo", "casual", "family"],
+    ingredients: ["vine leaves", "rice", "pine nuts", "currants", "mint"],
+  },
+  {
+    id: "halloumi-skewer",
+    name: "Grilled Halloumi Skewer",
+    description:
+      "Charred halloumi with cherry tomatoes, oregano, and a drizzle of carob syrup.",
+    price: 12,
+    priceTier: 1,
+    category: "starters",
+    dietaryTags: ["vegetarian", "gluten-free", "nut-free"],
+    spiceLevel: 0,
+    moods: ["comforting", "indulgent"],
+    occasions: ["casual", "family"],
+    ingredients: ["halloumi", "cherry tomato", "oregano", "carob syrup"],
+  },
+
+  // --- Mains ---
+  {
+    id: "lamb-tagine",
+    name: "Slow Lamb Tagine",
+    description:
+      "Lamb shoulder braised with apricots, cinnamon, and almonds over saffron couscous.",
+    price: 27,
+    priceTier: 3,
+    category: "mains",
+    dietaryTags: ["dairy-free", "contains-meat"],
+    spiceLevel: 2,
+    moods: ["hearty", "comforting", "indulgent"],
+    occasions: ["celebration", "family", "romantic"],
+    ingredients: ["lamb", "apricot", "cinnamon", "almond", "couscous"],
+    featured: true,
+  },
+  {
+    id: "eggplant-imam",
+    name: "İmam Bayıldı",
+    description:
+      "Whole braised eggplant stuffed with tomato, onion, and garlic in olive oil.",
+    price: 18,
+    priceTier: 2,
+    category: "mains",
+    dietaryTags: ["vegan", "gluten-free", "dairy-free", "nut-free"],
+    spiceLevel: 1,
+    moods: ["hearty", "comforting"],
+    occasions: ["family", "casual"],
+    ingredients: ["eggplant", "tomato", "onion", "garlic", "olive oil"],
+  },
+  {
+    id: "chicken-souvlaki",
+    name: "Lemon Chicken Souvlaki",
+    description:
+      "Charcoal-grilled chicken skewers marinated in lemon, garlic, and oregano.",
+    price: 21,
+    priceTier: 2,
+    category: "mains",
+    dietaryTags: ["gluten-free", "dairy-free", "nut-free", "contains-meat"],
+    spiceLevel: 1,
+    moods: ["fresh", "hearty"],
+    occasions: ["casual", "family", "solo"],
+    ingredients: ["chicken", "lemon", "garlic", "oregano"],
+  },
+  {
+    id: "harissa-cauliflower",
+    name: "Harissa Roasted Cauliflower",
+    description:
+      "Whole cauliflower roasted in harissa with tahini, dukkah, and herb oil.",
+    price: 19,
+    priceTier: 2,
+    category: "mains",
+    dietaryTags: ["vegan", "gluten-free", "dairy-free"],
+    spiceLevel: 3,
+    moods: ["adventurous", "hearty"],
+    occasions: ["casual", "celebration"],
+    ingredients: ["cauliflower", "harissa", "tahini", "dukkah"],
+    featured: true,
+  },
+  {
+    id: "beef-kofta",
+    name: "Spiced Beef Köfte",
+    description:
+      "Charcoal köfte with smoked chili, grilled peppers, and burnt-onion yogurt.",
+    price: 23,
+    priceTier: 2,
+    category: "mains",
+    dietaryTags: ["gluten-free", "nut-free", "contains-meat"],
+    spiceLevel: 2,
+    moods: ["hearty", "indulgent"],
+    occasions: ["family", "casual"],
+    ingredients: ["beef", "smoked chili", "pepper", "yogurt"],
+  },
+  {
+    id: "saffron-risotto",
+    name: "Saffron & Lemon Risotto",
+    description:
+      "Carnaroli rice with saffron, preserved lemon, and aged pecorino.",
+    price: 20,
+    priceTier: 2,
+    category: "mains",
+    dietaryTags: ["vegetarian", "gluten-free", "nut-free"],
+    spiceLevel: 0,
+    moods: ["comforting", "indulgent"],
+    occasions: ["romantic", "solo"],
+    ingredients: ["carnaroli rice", "saffron", "preserved lemon", "pecorino"],
+  },
+
+  // --- From the Sea ---
+  {
+    id: "grilled-sea-bass",
+    name: "Whole Grilled Sea Bass",
+    description:
+      "Line-caught sea bass over charcoal with fennel, lemon, and caper berries.",
+    price: 29,
+    priceTier: 3,
+    category: "seafood",
+    dietaryTags: ["pescatarian", "gluten-free", "dairy-free", "nut-free", "contains-seafood"],
+    spiceLevel: 0,
+    moods: ["light", "fresh"],
+    occasions: ["romantic", "celebration"],
+    ingredients: ["sea bass", "fennel", "lemon", "caper berries"],
+    featured: true,
+  },
+  {
+    id: "garlic-prawns",
+    name: "Sizzling Garlic Prawns",
+    description:
+      "Prawns seared in chili, garlic, and olive oil with grilled sourdough.",
+    price: 22,
+    priceTier: 2,
+    category: "seafood",
+    dietaryTags: ["pescatarian", "dairy-free", "contains-seafood"],
+    spiceLevel: 2,
+    moods: ["adventurous", "indulgent"],
+    occasions: ["casual", "romantic"],
+    ingredients: ["prawns", "chili", "garlic", "sourdough"],
+  },
+  {
+    id: "calamari",
+    name: "Crispy Calamari",
+    description:
+      "Lightly fried calamari with smoked aioli and a squeeze of lemon.",
+    price: 17,
+    priceTier: 2,
+    category: "seafood",
+    dietaryTags: ["pescatarian", "contains-seafood"],
+    spiceLevel: 0,
+    moods: ["comforting", "indulgent"],
+    occasions: ["casual", "family"],
+    ingredients: ["calamari", "aioli", "lemon"],
+  },
+  {
+    id: "seafood-stew",
+    name: "Coastal Seafood Stew",
+    description:
+      "Mussels, clams, and white fish in a saffron-tomato broth with herbs.",
+    price: 26,
+    priceTier: 3,
+    category: "seafood",
+    dietaryTags: ["pescatarian", "gluten-free", "dairy-free", "contains-seafood"],
+    spiceLevel: 1,
+    moods: ["hearty", "comforting"],
+    occasions: ["family", "celebration"],
+    ingredients: ["mussels", "clams", "white fish", "saffron", "tomato"],
+  },
+
+  // --- Desserts ---
+  {
+    id: "baklava",
+    name: "Pistachio Baklava",
+    description:
+      "Layered filo with Antep pistachios and orange-blossom syrup.",
+    price: 9,
+    priceTier: 1,
+    category: "desserts",
+    dietaryTags: ["vegetarian"],
+    spiceLevel: 0,
+    moods: ["indulgent", "comforting"],
+    occasions: ["celebration", "family"],
+    ingredients: ["filo", "pistachio", "orange blossom", "butter"],
+    featured: true,
+  },
+  {
+    id: "citrus-olive-cake",
+    name: "Olive Oil & Citrus Cake",
+    description:
+      "Moist olive oil cake with orange, almond, and a spoon of mascarpone.",
+    price: 8,
+    priceTier: 1,
+    category: "desserts",
+    dietaryTags: ["vegetarian"],
+    spiceLevel: 0,
+    moods: ["light", "comforting"],
+    occasions: ["casual", "romantic"],
+    ingredients: ["olive oil", "orange", "almond", "mascarpone"],
+  },
+  {
+    id: "yogurt-honey",
+    name: "Strained Yogurt & Honey",
+    description:
+      "Thick yogurt with walnut, thyme honey, and roasted figs.",
+    price: 7,
+    priceTier: 1,
+    category: "desserts",
+    dietaryTags: ["vegetarian", "gluten-free"],
+    spiceLevel: 0,
+    moods: ["light", "fresh"],
+    occasions: ["solo", "casual"],
+    ingredients: ["yogurt", "walnut", "thyme honey", "fig"],
+  },
+  {
+    id: "lemon-sorbet",
+    name: "Amalfi Lemon Sorbet",
+    description:
+      "Bright lemon sorbet with a touch of basil and sea salt.",
+    price: 6,
+    priceTier: 1,
+    category: "desserts",
+    dietaryTags: ["vegan", "gluten-free", "dairy-free", "nut-free"],
+    spiceLevel: 0,
+    moods: ["light", "fresh"],
+    occasions: ["solo", "casual"],
+    ingredients: ["lemon", "basil", "sea salt"],
+  },
+
+  // --- Drinks ---
+  {
+    id: "house-white",
+    name: "Coastal House White",
+    description:
+      "Crisp unoaked white with notes of green apple and sea breeze.",
+    price: 8,
+    priceTier: 1,
+    category: "drinks",
+    dietaryTags: ["vegan", "gluten-free", "dairy-free", "nut-free"],
+    spiceLevel: 0,
+    moods: ["light", "fresh"],
+    occasions: ["romantic", "celebration", "casual"],
+    ingredients: ["white wine"],
+  },
+  {
+    id: "pomegranate-spritz",
+    name: "Pomegranate Spritz",
+    description:
+      "Sparkling spritz with pomegranate, citrus, and fresh mint.",
+    price: 9,
+    priceTier: 1,
+    category: "drinks",
+    dietaryTags: ["vegan", "gluten-free", "dairy-free", "nut-free"],
+    spiceLevel: 0,
+    moods: ["fresh", "adventurous"],
+    occasions: ["celebration", "casual"],
+    ingredients: ["pomegranate", "citrus", "mint", "soda"],
+    featured: true,
+  },
+  {
+    id: "mint-tea",
+    name: "Fresh Mint Tea",
+    description:
+      "Steeped green tea with handfuls of fresh mint and a touch of honey.",
+    price: 5,
+    priceTier: 1,
+    category: "drinks",
+    dietaryTags: ["vegetarian", "gluten-free", "nut-free"],
+    spiceLevel: 0,
+    moods: ["light", "comforting"],
+    occasions: ["solo", "family", "casual"],
+    ingredients: ["green tea", "mint", "honey"],
+  },
+];

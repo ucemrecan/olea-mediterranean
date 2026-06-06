@@ -1,0 +1,16 @@
+{
+  "name": "olea-mediterranean",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Olea — Modern Mediterranean restaurant website with a dish recommendation assistant.",
+  "scripts": {
+    "dev": "pnpm --filter @olea/web dev",
+    "build": "pnpm --filter @olea/web build",
+    "start": "pnpm --filter @olea/web start",
+    "lint": "pnpm --filter @olea/web lint"
+  },
+  "packageManager": "pnpm@9.12.0",
+  "engines": {
+    "node": ">=22"
+  }
+}

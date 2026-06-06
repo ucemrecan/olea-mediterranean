@@ -1,0 +1,10 @@
+node_modules
+**/node_modules
+.next
+**/.next
+.git
+.pnpm-store
+*.log
+.DS_Store
+dist
+build
