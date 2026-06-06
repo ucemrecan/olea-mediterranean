@@ -20,6 +20,17 @@ export interface ScoredDish {
   reasons: string[];
 }
 
+/**
+ * The assistant's full response: the picked dishes plus a natural-language
+ * reply. `source` records whether an LLM or the rule-based engine produced it,
+ * so the UI (and tests) can tell the two paths apart.
+ */
+export interface RecommendationResult {
+  recommendations: ScoredDish[];
+  reply: string;
+  source: "llm" | "rules";
+}
+
 /** Maps a spice preference to its target dish spice level. */
 const SPICE_TARGET: Record<"mild" | "medium" | "spicy", number> = {
   mild: 0,

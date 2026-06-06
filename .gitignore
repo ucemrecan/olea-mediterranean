@@ -11,6 +11,12 @@ next-env.d.ts
 build/
 dist/
 
+# Database (SQLite — never commit data files)
+*.sqlite
+*.sqlite3
+*.db
+apps/api/data/
+
 # Environment
 .env
 .env*.local

@@ -1,0 +1,58 @@
+services:
+  api:
+    image: node:22-alpine
+    working_dir: /workspace
+    # Installs the workspace, seeds the database, and serves in production mode.
+# Install ALL deps (--prod=false) — build/run tooling lives in devDependencies,
+    # even though the app runs with NODE_ENV=production.
+    command: sh -c "corepack enable && corepack prepare pnpm@9.12.0 --activate && pnpm install --frozen-lockfile --prod=false && pnpm --filter @olea/api exec tsx src/index.ts"
+    ports:
+      - "4000:4000"
+    volumes:
+      - .:/workspace
+      - api_data:/workspace/apps/api/data
+    environment:
+      # Run pnpm non-interactively (auto-confirm any module purge prompt).
+      - CI=true
+      - NODE_ENV=production
+      - PORT=4000
+      - CORS_ORIGIN=http://localhost:3000
+      - DATABASE_URL=file:/workspace/apps/api/data/olea.sqlite
+      - GEMINI_MODEL=gemini-2.5-flash
+      # Add a free AI Studio key to enable the LLM assistant.
+      - GEMINI_API_KEY=${GEMINI_API_KEY:-}
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "-", "http://localhost:4000/api/health"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 150s
+    tty: true
+
+  web:
+    image: node:22-alpine
+    working_dir: /workspace
+    # Builds the optimised production bundle (fetching data from the live API),
+    # then serves it with `next start`.
+    command: sh -c "corepack enable && corepack prepare pnpm@9.12.0 --activate && pnpm --filter @olea/web build && pnpm --filter @olea/web start"
+    ports:
+      - "3000:3000"
+    depends_on:
+      api:
+        condition: service_healthy
+    volumes:
+      - .:/workspace
+      - web_next_prod:/workspace/apps/web/.next
+    environment:
+      - CI=true
+      - NODE_ENV=production
+      - NEXT_TELEMETRY_DISABLED=1
+      # Production data wiring — no mock, all requests hit the API.
+      - NEXT_PUBLIC_DATA_SOURCE=api
+      - NEXT_PUBLIC_API_URL=http://localhost:4000
+      - API_URL_INTERNAL=http://api:4000
+    tty: true
+
+volumes:
+  web_next_prod:
+  api_data:

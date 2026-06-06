@@ -1,10 +1,39 @@
 services:
+  api:
+    image: node:22-alpine
+    working_dir: /workspace
+    # The API container owns the single workspace install, then seeds and serves.
+    command: sh -c "corepack enable && corepack prepare pnpm@9.12.0 --activate && pnpm install && pnpm --filter @olea/api dev"
+    ports:
+      - "4000:4000"
+    volumes:
+      - .:/workspace
+      - api_data:/workspace/apps/api/data
+    environment:
+      - PORT=4000
+      - CORS_ORIGIN=http://localhost:3000
+      - DATABASE_URL=file:/workspace/apps/api/data/olea.sqlite
+      - GEMINI_MODEL=gemini-2.5-flash
+      # Add a free AI Studio key here (or in an .env) to enable the LLM assistant.
+      - GEMINI_API_KEY=${GEMINI_API_KEY:-}
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "-", "http://localhost:4000/api/health"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 150s
+    tty: true
+
   web:
     image: node:22-alpine
     working_dir: /workspace
-    command: sh -c "corepack enable && corepack prepare pnpm@9.12.0 --activate && pnpm install && pnpm --filter @olea/web dev"
+    # Dependencies are installed by the api service; web only runs the dev server.
+    command: sh -c "corepack enable && corepack prepare pnpm@9.12.0 --activate && pnpm --filter @olea/web dev"
     ports:
       - "3000:3000"
+    depends_on:
+      api:
+        condition: service_healthy
     volumes:
       - .:/workspace
       - web_next_cache:/workspace/apps/web/.next
@@ -13,7 +42,12 @@ services:
       - NEXT_TELEMETRY_DISABLED=1
       # Enables hot reload when the project lives on a bind-mounted volume.
       - WATCHPACK_POLLING=true
+      # Data source wiring: browser uses the public URL, SSR uses the internal one.
+      - NEXT_PUBLIC_DATA_SOURCE=api
+      - NEXT_PUBLIC_API_URL=http://localhost:4000
+      - API_URL_INTERNAL=http://api:4000
     tty: true
 
 volumes:
   web_next_cache:
+  api_data:

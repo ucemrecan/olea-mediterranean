@@ -1,6 +1,6 @@
 "use client";
 
-import type { RecommendationPreferences, ScoredDish } from "@olea/menu-data";
+import type { RecommendationPreferences, RecommendationResult } from "@olea/menu-data";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { useAssistant } from "@/components/assistant/AssistantContext";
@@ -73,7 +73,8 @@ export function AssistantWidget() {
   const [stepIndex, setStepIndex] = useState(0);
   const [prefs, setPrefs] = useState<RecommendationPreferences>({});
   const [transcript, setTranscript] = useState<Turn[]>([]);
-  const [results, setResults] = useState<ScoredDish[] | null>(null);
+  const [results, setResults] = useState<RecommendationResult | null>(null);
+  const [loading, setLoading] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const currentStep = STEPS[stepIndex];
@@ -93,8 +94,20 @@ export function AssistantWidget() {
     if (stepIndex + 1 < STEPS.length) {
       setStepIndex(stepIndex + 1);
     } else {
-      const recommendations = await getMenuClient().recommend(nextPrefs, 3);
-      setResults(recommendations);
+      setLoading(true);
+      try {
+        const result = await getMenuClient().recommend(nextPrefs, { limit: 3 });
+        setResults(result);
+      } catch {
+        setResults({
+          recommendations: [],
+          reply:
+            "Sorry — I couldn't reach the kitchen just now. Please try again in a moment.",
+          source: "rules",
+        });
+      } finally {
+        setLoading(false);
+      }
     }
   }
 
@@ -103,6 +116,7 @@ export function AssistantWidget() {
     setPrefs({});
     setTranscript([]);
     setResults(null);
+    setLoading(false);
   }
 
   return (
@@ -161,15 +175,17 @@ export function AssistantWidget() {
                 </div>
               ))}
 
-              {!isDone && <Bubble from="assistant">{currentStep.question}</Bubble>}
+              {!isDone && !loading && transcript.length === stepIndex && (
+                <Bubble from="assistant">{currentStep.question}</Bubble>
+              )}
+
+              {loading && <Bubble from="assistant">Let me think…</Bubble>}
 
               {isDone && (
                 <>
-                  <Bubble from="assistant">
-                    Here&apos;s what I&apos;d bring to your table:
-                  </Bubble>
+                  <Bubble from="assistant">{results!.reply}</Bubble>
                   <div className="space-y-2">
-                    {results!.map((scored) => (
+                    {results!.recommendations.map((scored) => (
                       <RecommendationCard key={scored.dish.id} scored={scored} />
                     ))}
                   </div>
@@ -185,7 +201,8 @@ export function AssistantWidget() {
                     <button
                       key={option.label}
                       onClick={() => selectOption(option.label, option.value)}
-                      className="rounded-full border border-olive/30 bg-white px-3.5 py-2 text-sm text-olive-deep transition-colors hover:border-olive hover:bg-olive/10 cursor-pointer"
+                      disabled={loading}
+                      className="rounded-full border border-olive/30 bg-white px-3.5 py-2 text-sm text-olive-deep transition-colors hover:border-olive hover:bg-olive/10 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50"
                     >
                       {option.label}
                     </button>
